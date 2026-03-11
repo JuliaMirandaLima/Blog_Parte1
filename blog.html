@@ -6,71 +6,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Julesca</title>
     <style>
-        .esport {
-            background-color: #f0fafa;
-            /* Um fundo levemente diferente para destacar */
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
+        body {
+            background-color: #E0F2F1;
+            margin: 0;
+            font-family: sans-serif;
         }
 
-        .esport h2 span {
+        h2 span, h3 span {
             color: #16bbc7;
         }
 
-        .esport p {
+        p, li {
             color: #044c52;
             line-height: 1.6;
-            /* Deixa o texto mais fácil de ler */
+        }
+
+        nav {
+            text-align: center;
+            padding: 15px;
+            background-color: #355B5C;
+            margin-bottom: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        aside {
+            flex: 0 0 400px;
+            background-color: #f7feff;
+            border: 2px solid #16bbc7;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 9px 9px 10px rgba(0,0,0,0.05);
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .esport {
+            background-color: #f0fafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+         .musica {
+            background-color: #f0fafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .gastronomia {
+            background-color: #f0fafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
         }
 
         .culinaria {
-            background-color: #fff5f8;
-            /* Um fundinho levemente rosado/quente que lembra comida */
+            background-color: #f0fafa;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 20px 0;
-
         }
-
-        .culinaria h2 span {
-            color: #16bbc7;
-        }
-
-        .culinaria p {
-            color: #044c52;
-            line-height: 1.6;
-        }
-
+        
         footer {
             background-color: #1f5d5f;
-            /* O verde escuro da borda da sua foto */
             color: white;
-            /* Texto branco para contrastar */
             text-align: center;
-            /* Centraliza o texto */
             padding: 20px;
-            /* Dá um espaço interno */
             margin-top: 40px;
-            /* Afasta o rodapé do conteúdo de cima */
             border-radius: 15px 15px 0 0;
-            /* Arredonda só as pontas de cima */
-            font-family: sans-serif;
         }
 
         footer small {
             display: block;
-            /* Faz o copyright ficar na linha de baixo */
             margin-top: 10px;
             opacity: 0.8;
-            /* Deixa o texto de baixo um pouco mais suave */
         }
+
+       
+
+      
     </style>
-
-
 </head>
 
-<body style="background-color: #E0F2F1;">
+<body>
+
+    <nav>
+        <a href="#sobre">Sobre Mim</a>
+        <a href="#musica">Música</a>
+        <a href="#culinaria">Culinária</a>
+        <a href="#esporte">Esporte</a>
+    </nav>
+
     <h1 align="center">
         <span style="color: #16bbc7;">𓇼 ⋆.˚ 𓆉 <strong>Blog da Julia</strong> 𓆉 ⋆.˚ 𓇼</span>
     </h1>
@@ -84,69 +129,54 @@
 
     <hr>
 
-    <h2><u><span style="color: #16bbc7;">Um pouco sobre mim:</span></u></h2>
-    <p>
-        <span style="color: #044c52;">Tenho <mark style="background-color: #2CAFB1; color: #355B5C;">16 anos</mark>,
-            faço aniversário no dia 19 de Março</mark>. Nasci no interior de São Paulo, em uma cidade chamada Pacaembu.
-            Cursei o ensino fundamental 1 e 2 na minha cidade natal e o ensino médio em Cascavel.</span>
-    </p>
-    <p>
-        <span style="color: #044c52;">Sou a filha mais nova por parte de mãe e a do meio por parte de pai. Hoje em dia
-            moro com minha mãe e meu padrasto (meu pai 2) em Cascavel-PR há 3 anos. Grande parte da minha família mora
-            aqui, por isso escolhemos a cidade para morar.</span>
-    </p>
-    <p>
-        <span style="color: #044c52;"><b>Minha melhor amiga se chama Sofia!</b> O mais legal é que ela faz aniversário
-            apenas uma semana depois de mim.</span>
-    </p>
-    <p>
-        <span style="color: #044c52;">Tenho 2 cadelas chamadas <i>Amora e Daphne</i>, que são o meu amor da vida. Além
-            delas, tenho uma "guarda compartilhada" com a minha avó de 2 gatinhas chamadas <i>Eva e
-                Catharina</i>.</span>
-    </p>
+    <div class="container">
+        
+        <aside id="sobre">
+            <h2><u><span>Sobre mim:</span></u></h2>
+            <p>Tenho <mark style="background-color: #2CAFB1; color: #355B5C;">16 anos</mark>, 19 de Março. Nasci em Pacaembu-SP.</p>
+            <p>Moro em Cascavel-PR com minha mãe e meu "pai 2". Grande parte da família mora aqui.</p>
+            <p><b>Melhor amiga:</b> Sofia!</p>
+            <p><b>Pets:</b> Amora e Daphne (cadelas), Eva e Catharina (gatas).</p>
+        </aside>
 
-    <h2><u><span style="color: #16bbc7;">Meu gosto musical:</span></u></h2>
-    <p><span style="color: #044c52;">Eu sou bem eclética em relação a música... Só não curto muito rock, trap e rap.
-            Tirando esses estilos, ouço de tudo! Mas os meus favoritos são:</span></p>
-    <ol>
-        <li><b><em><span style="color: #044c52;">Pagode</span></em></b></li>
-        <li><b><em><span style="color: #044c52;">Bossa Nova</span></em></b></li>
-        <li><b><em><span style="color: #044c52;">MPB</span></em></b></li>
-    </ol>
+        <main>
+            <div class="musica">
+                <h2 id="musica"><u><span>Meu gosto musical:</span></u></h2>
+            <p>Sou eclética! Exceto rock, trap e rap, ouço de tudo. Favoritos:</p>
+            <ol>
+                <li><b><em>Pagode</em></b></li>
+                <li><b><em>Bossa Nova</em></b></li>
+                <li><b><em>MPB</em></b></li>
+            </ol></div>
+            
 
-    <div class="culinaria">
-        <h2><u><span>Meus dotes culinários:</span></u></h2>
-        <p>
-            Sou péssima com qualquer coisa salgada! Na verdade, sou péssima em temperar. Eu até
-            cozinho bem, mas o sal... definitivamente não é comigo.
-        </p>
-    </div>
+            <div id="culinaria" class="culinaria">
+                <h2><u><span>Meus dotes culinários:</span></u></h2>
+                <p>Sou péssima com qualquer coisa salgada! Na verdade, sou péssima em temperar. Eu até
+            cozinho bem, mas o sal... definitivamente não é comigo.</p>
+            </div>
 
-    <div class="esport">
-        <h2><u><span>Minha relação com o esporte:</span></u></h2>
-        <p>
-            Eu não sou uma das pessoas mais apaixonadas por esporte que você vai ler hoje, sou bem "inimiga" na verdade.
+            <div id="esporte" class="esport">
+                <h2><u><span>Minha relação com o esporte:</span></u></h2>
+                <p>Eu não sou uma das pessoas mais apaixonadas por esporte que você vai ler hoje, sou bem "inimiga" na verdade.
             O máximo que eu faço é uma caminhada no lago e é isso. Infelizmente, tenho problemas no joelho desde 2020
             quando tirei ele do lugar, então atualmente tenho que tomar cuidado até em como vou sentar na cadeira.
-            <b>•︵•</b>
-        </p>
+            <b>•︵•</b></p>
+            </div>
+
+            <div class="gastronomia"><h3><span>Comidas que eu mais amo cozinhar:</span></h3>
+            <ul>
+                <li>Pipoca doce</li>
+                <li>Bife em tiras ao molho de queijo com batatas</li>
+                <li>Brigadeiro</li>
+                <li>Macarrão e Maionese</li>
+            </ul></div>
+            
+        </main>
+        
     </div>
 
-
-
-
-    <h3><span style="color: #16bbc7;">Comidas que eu mais amo cozinhar:</span></h3>
-    <ul>
-        <li><span style="color: #044c52;">Pipoca doce</span></li>
-        <li><span style="color: #044c52;">Bife em tiras ao molho de queijo com batatas</span></li>
-        <li><span style="color: #044c52;">Brigadeiro</span></li>
-        <li><span style="color: #044c52;">Macarrão</span></li>
-        <li><span style="color: #044c52;">Maionese</span></li>
-    </ul>
-
-    
     <footer>
-
         <small>© 2026 - Criado por Julia Miranda Lima</small>
     </footer>
 
