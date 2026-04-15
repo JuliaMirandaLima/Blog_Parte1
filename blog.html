@@ -6,180 +6,527 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Julesca</title>
     <style>
-        body {
-            background-color: #E0F2F1;
+        /* ============================
+           RESET & BASE
+        ============================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
-            font-family: sans-serif;
+            padding: 0;
+        }
+
+        :root {
+            --color-primary:     #16bbc7;
+            --color-primary-dark:#0e9aa4;
+            --color-nav:         #355B5C;
+            --color-nav-dark:    #1f5d5f;
+            --color-bg:          #E0F2F1;
+            --color-card-bg:     #f7feff;
+            --color-section-bg:  #f0fafa;
+            --color-text:        #044c52;
+            --color-footer:      #1f5d5f;
+            --color-mark:        #2CAFB1;
+
+            --radius-card:  0.875rem;
+            --radius-img:   0.5rem;
+            --shadow-card:  0 4px 18px rgba(0,0,0,0.08);
+
+            --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            --space-xs:  0.5rem;
+            --space-sm:  0.75rem;
+            --space-md:  1.25rem;
+            --space-lg:  1.75rem;
+            --space-xl:  2.5rem;
+        }
+
+        html {
+            font-size: 100%; /* 1rem = 16px base */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            font-family: var(--font-base);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ============================
+           TYPOGRAPHY — MOBILE FIRST
+        ============================ */
+        h1 {
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-align: center;
+            color: var(--color-primary);
+            padding: var(--space-md) var(--space-sm);
+        }
+
+        h2 {
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            margin-bottom: var(--space-sm);
         }
 
         h2 span, h3 span {
-            color: #16bbc7;
+            color: var(--color-primary);
         }
 
-        p, li {
-            color: #044c52;
-            line-height: 1.6;
+        h3 {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: var(--space-sm);
+        }
+
+        p {
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        li {
+            color: var(--color-text);
+            line-height: 1.8;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid var(--color-primary);
+            opacity: 0.3;
+            margin: 0 var(--space-md);
+        }
+
+        /* ============================
+           NAV — HAMBURGUER (MOBILE FIRST)
+        ============================ */
+
+        /* Esconde o checkbox real */
+        #menu-toggle {
+            display: none;
         }
 
         nav {
-            text-align: center;
-            padding: 15px;
-            background-color: #355B5C;
-            margin-bottom: 30px;
+            background-color: var(--color-nav);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Barra superior: logo do blog + botão ☰ */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-sm) var(--space-md);
+        }
+
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* Botão hamburguer (label do checkbox) */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 1.75rem;
+            height: 1.25rem;
+            cursor: pointer;
+            padding: 0.1rem 0;
+            /* área de toque maior para mobile */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 2px;
+            transition: transform 0.35s ease, opacity 0.25s ease, width 0.3s ease;
+            transform-origin: center;
+        }
+
+        /* Animação: ☰ → ✕ quando o menu está aberto */
+        #menu-toggle:checked ~ .nav-bar .hamburger span:nth-child(1) {
+            transform: translateY(0.46rem) rotate(45deg);
+        }
+        #menu-toggle:checked ~ .nav-bar .hamburger span:nth-child(2) {
+            opacity: 0;
+            width: 0;
+        }
+        #menu-toggle:checked ~ .nav-bar .hamburger span:nth-child(3) {
+            transform: translateY(-0.46rem) rotate(-45deg);
+        }
+
+        /* Menu dropdown — fechado por padrão */
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            background-color: var(--color-nav-dark);
+        }
+
+        /* Menu aberto */
+        #menu-toggle:checked ~ .nav-menu {
+            max-height: 20rem;
+            padding: var(--space-xs) 0;
+        }
+
+        .nav-menu li {
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.75rem var(--space-md);
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
         }
 
+        nav a:hover,
+        nav a:focus {
+            background-color: var(--color-primary);
+            color: var(--color-nav);
+            padding-left: calc(var(--space-md) + 0.4rem);
+            outline: none;
+        }
+
+        /* ============================
+           DESKTOP (≥ 600px): nav horizontal clássica
+        ============================ */
+        @media (min-width: 37.5em) {
+
+            /* Esconde o botão hamburguer */
+            .hamburger {
+                display: none;
+            }
+
+            .nav-bar {
+                justify-content: flex-start;
+                gap: var(--space-md);
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            /* Menu sempre visível, em linha */
+            .nav-menu {
+                display: flex !important;
+                flex-direction: row;
+                max-height: none;
+                overflow: visible;
+                background-color: transparent;
+                padding: 0;
+                gap: var(--space-xs);
+                align-items: center;
+            }
+
+            .nav-menu li {
+                border-top: none;
+            }
+
+            nav a {
+                padding: 0.35rem 0.8rem;
+                border-radius: 2rem;
+                font-size: 0.95rem;
+            }
+
+            nav a:hover,
+            nav a:focus {
+                padding-left: 0.8rem; /* sem o slide extra no desktop */
+                background-color: var(--color-primary);
+                color: var(--color-nav);
+            }
+        }
+
+        /* ============================
+           HEADER / HERO — MOBILE FIRST
+        ============================ */
+        .hero {
+            text-align: center;
+            padding: var(--space-lg) var(--space-md) var(--space-md);
+        }
+
+        .hero-img {
+            width: clamp(180px, 55vw, 300px);
+            height: auto;
+            aspect-ratio: 3 / 2;
+            object-fit: cover;
+            border: 5px solid var(--color-nav);
+            border-radius: var(--radius-img);
+            padding: 3px;
+            background-color: white;
+            display: block;
+            margin: 0 auto var(--space-xs);
+        }
+
+        .hero-music-bar {
+            color: var(--color-primary-dark);
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            font-style: italic;
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        /* ============================
+           LAYOUT CONTAINER — MOBILE FIRST
+           Stack: aside acima, main abaixo
+        ============================ */
         .container {
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 30px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            flex-direction: column;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            max-width: 75rem;
+            margin: var(--space-md) auto 0;
         }
 
+        /* ============================
+           ASIDE — MOBILE FIRST
+        ============================ */
         aside {
-            flex: 0 0 400px;
-            background-color: #f7feff;
-            border: 2px solid #16bbc7;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 9px 9px 10px rgba(0,0,0,0.05);
+            background-color: var(--color-card-bg);
+            border: 2px solid var(--color-primary);
+            padding: var(--space-md);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            width: 100%;
+        }
+
+        aside p b {
+            color: var(--color-primary-dark);
+        }
+
+        mark {
+            background-color: var(--color-mark);
+            color: var(--color-nav);
+            padding: 0.1em 0.35em;
+            border-radius: 0.25rem;
+        }
+
+        /* ============================
+           SECTION CARDS — MOBILE FIRST
+        ============================ */
+        .musica,
+        .culinaria,
+        .esport,
+        .gastronomia {
+            background-color: var(--color-section-bg);
+            padding: var(--space-md);
+            border-radius: var(--radius-card);
+            border-left: 4px solid var(--color-primary);
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .musica:hover,
+        .culinaria:hover,
+        .esport:hover,
+        .gastronomia:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(22,187,199,0.15);
         }
 
         main {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            width: 100%;
         }
 
-        .esport {
-            background-color: #f0fafa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
+        ol, ul {
+            padding-left: var(--space-md);
         }
 
-         .musica {
-            background-color: #f0fafa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .gastronomia {
-            background-color: #f0fafa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .culinaria {
-            background-color: #f0fafa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        
+        /* ============================
+           FOOTER
+        ============================ */
         footer {
-            background-color: #1f5d5f;
+            background-color: var(--color-footer);
             color: white;
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            border-radius: 15px 15px 0 0;
+            padding: var(--space-lg) var(--space-md);
+            margin-top: var(--space-xl);
+            border-radius: 1rem 1rem 0 0;
         }
 
         footer small {
             display: block;
-            margin-top: 10px;
-            opacity: 0.8;
+            margin-top: var(--space-xs);
+            opacity: 0.75;
+            font-size: 0.85rem;
         }
 
-       
+        /* ============================
+           MEDIA QUERY — TABLET (≥ 600px)
+        ============================ */
+        @media (min-width: 37.5em) {
 
-      
+            .container {
+                padding: var(--space-lg);
+                gap: var(--space-lg);
+            }
+
+            .hero-img {
+                width: clamp(220px, 40vw, 300px);
+            }
+        }
+
+        /* ============================
+           MEDIA QUERY — DESKTOP (≥ 900px)
+           Lado a lado: aside | main
+        ============================ */
+        @media (min-width: 56.25em) {
+
+            .container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            aside {
+                flex: 0 0 22rem;
+                position: sticky;
+                top: 5rem; /* abaixo da nav sticky */
+            }
+
+            main {
+                flex: 1;
+                min-width: 0; /* evita overflow em flex */
+            }
+        }
+
+        /* ============================
+           MEDIA QUERY — WIDE (≥ 1200px)
+        ============================ */
+        @media (min-width: 75em) {
+            aside {
+                flex: 0 0 25rem;
+            }
+        }
+
+        /* ============================
+           SCROLL OFFSET — compensa nav sticky
+        ============================ */
+        #sobre,
+        #musica,
+        #culinaria,
+        #esporte {
+            scroll-margin-top: 4rem;
+        }
+
+        /* ============================
+           ACESSIBILIDADE — FOCUS VISIBLE
+        ============================ */
+        :focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
 <body>
 
-    <nav>
-        <a href="#sobre">Sobre Mim</a>
-        <a href="#musica">Música</a>
-        <a href="#culinaria">Culinária</a>
-        <a href="#esporte">Esporte</a>
+    <nav aria-label="Navegação principal">
+        <!-- Checkbox invisível controla o menu via CSS puro -->
+        <input type="checkbox" id="menu-toggle" aria-hidden="true">
+
+        <div class="nav-bar">
+            <span class="nav-logo">✦ Blog da Julia</span>
+
+            <!-- Label funciona como botão ☰ -->
+            <label class="hamburger" for="menu-toggle" aria-label="Abrir menu de navegação" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#sobre" onclick="document.getElementById('menu-toggle').checked=false">Sobre Mim</a></li>
+            <li><a href="#musica" onclick="document.getElementById('menu-toggle').checked=false">Música</a></li>
+            <li><a href="#culinaria" onclick="document.getElementById('menu-toggle').checked=false">Culinária</a></li>
+            <li><a href="#esporte" onclick="document.getElementById('menu-toggle').checked=false">Esporte</a></li>
+        </ul>
     </nav>
 
-    <h1 align="center">
-        <span style="color: #16bbc7;">𓇼 ⋆.˚ 𓆉 <strong>Blog da Julia</strong> 𓆉 ⋆.˚ 𓇼</span>
-    </h1>
-
-    <p align="center">
-        <img src="foto.jpg" width="300" height="200" alt="Foto da Julia"
-            style="border: 6px solid #355B5C; padding: 4px; background-color: white;">
-        <br>
-        <small><span style="color: #388586;">▶︎ •၊၊||၊|။||||။‌‌‌‌‌၊|• 0:10</span></small>
-    </p>
+    <header class="hero">
+        <h1>𓇼 ⋆.˚ 𓆉 <strong>Blog da Julia</strong> 𓆉 ⋆.˚ 𓇼</h1>
+        <img
+            src="foto.jpg"
+            class="hero-img"
+            alt="Foto da Julia"
+            width="300"
+            height="200"
+        >
+        <small class="hero-music-bar">▶︎ •၊၊||၊|။||||။‌‌‌‌‌၊|• 0:10</small>
+    </header>
 
     <hr>
 
     <div class="container">
-        
-        <aside id="sobre">
+
+        <aside id="sobre" aria-label="Sobre mim">
             <h2><u><span>Sobre mim:</span></u></h2>
-            <p>Tenho <mark style="background-color: #2CAFB1; color: #355B5C;">16 anos</mark>, 19 de Março. Nasci em Pacaembu-SP.</p>
+            <p>Tenho <mark>16 anos</mark>, 19 de Março. Nasci em Pacaembu-SP.</p>
             <p>Moro em Cascavel-PR com minha mãe e meu "pai 2". Grande parte da família mora aqui.</p>
             <p><b>Melhor amiga:</b> Sofia!</p>
             <p><b>Pets:</b> Amora e Daphne (cadelas), Eva e Catharina (gatas).</p>
         </aside>
 
         <main>
-            <div class="musica">
-                <h2 id="musica"><u><span>Meu gosto musical:</span></u></h2>
-            <p>Sou eclética! Exceto rock, trap e rap, ouço de tudo. Favoritos:</p>
-            <ol>
-                <li><b><em>Pagode</em></b></li>
-                <li><b><em>Bossa Nova</em></b></li>
-                <li><b><em>MPB</em></b></li>
-            </ol></div>
-            
 
-            <div id="culinaria" class="culinaria">
+            <section class="musica" id="musica" aria-label="Gosto musical">
+                <h2><u><span>Meu gosto musical:</span></u></h2>
+                <p>Sou eclética! Exceto rock, trap e rap, ouço de tudo. Favoritos:</p>
+                <ol>
+                    <li><b><em>Pagode</em></b></li>
+                    <li><b><em>Bossa Nova</em></b></li>
+                    <li><b><em>MPB</em></b></li>
+                </ol>
+            </section>
+
+            <section class="culinaria" id="culinaria" aria-label="Culinária">
                 <h2><u><span>Meus dotes culinários:</span></u></h2>
                 <p>Sou péssima com qualquer coisa salgada! Na verdade, sou péssima em temperar. Eu até
-            cozinho bem, mas o sal... definitivamente não é comigo.</p>
-            </div>
+                cozinho bem, mas o sal... definitivamente não é comigo.</p>
+            </section>
 
-            <div id="esporte" class="esport">
+            <section class="esport" id="esporte" aria-label="Esporte">
                 <h2><u><span>Minha relação com o esporte:</span></u></h2>
                 <p>Eu não sou uma das pessoas mais apaixonadas por esporte que você vai ler hoje, sou bem "inimiga" na verdade.
-            O máximo que eu faço é uma caminhada no lago e é isso. Infelizmente, tenho problemas no joelho desde 2020
-            quando tirei ele do lugar, então atualmente tenho que tomar cuidado até em como vou sentar na cadeira.
-            <b>•︵•</b></p>
-            </div>
+                O máximo que eu faço é uma caminhada no lago e é isso. Infelizmente, tenho problemas no joelho desde 2020
+                quando tirei ele do lugar, então atualmente tenho que tomar cuidado até em como vou sentar na cadeira.
+                <b>•︵•</b></p>
+            </section>
 
-            <div class="gastronomia"><h3><span>Comidas que eu mais amo cozinhar:</span></h3>
-            <ul>
-                <li>Pipoca doce</li>
-                <li>Bife em tiras ao molho de queijo com batatas</li>
-                <li>Brigadeiro</li>
-                <li>Macarrão e Maionese</li>
-            </ul></div>
-            
+            <section class="gastronomia" aria-label="Comidas favoritas">
+                <h3><span>Comidas que eu mais amo cozinhar:</span></h3>
+                <ul>
+                    <li>Pipoca doce</li>
+                    <li>Bife em tiras ao molho de queijo com batatas</li>
+                    <li>Brigadeiro</li>
+                    <li>Macarrão e Maionese</li>
+                </ul>
+            </section>
+
         </main>
-        
+
     </div>
 
     <footer>
-        <small>© 2026 - Criado por Julia Miranda Lima</small>
+        <p>Blog da Julia &hearts;</p>
+        <small>© 2026 — Criado por Julia Miranda Lima</small>
     </footer>
 
 </body>
-
 </html>
